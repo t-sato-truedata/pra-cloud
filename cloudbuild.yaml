@@ -2,10 +2,10 @@ steps:
 # Dockerfileを利用してアプリのテストビルドとイメージのビルドを行う。$_VERSIONはトリガーの変数として設定します。
 # $PROJECT_IDには使用中のプロジェクトIDが自動的に挿入されます
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-f', 'Dockerfile', '--tag=gcr.io/$PROJECT_ID/tsato-server:$_VERSION', '.']
-# 作成したtsato-serverイメージをPUSHする
+  args: ['build', '-f', 'Dockerfile', '--tag=gcr.io/$PROJECT_ID/tsato-cluster:$_VERSION', '.']
+# 作成したtsato-clusterイメージをPUSHする
 - name: 'gcr.io/cloud-builders/docker'
-  args: ["push", "gcr.io/$PROJECT_ID/tsato-server:$_VERSION"]
+  args: ["push", "gcr.io/$PROJECT_ID/tsato-cluster:$_VERSION"]
 # Clusterを取得。$_ZONEはトリガーの変数として設定します。
 - name: 'gcr.io/cloud-builders/gcloud'
   args:
@@ -13,7 +13,7 @@ steps:
   - container
   - clusters
   - get-credentials
-  - tsato-server
+  - tsato-cluster
   - --zone=$_ZONE
   - --project=$PROJECT_ID
 # アプリのデプロイ設定
@@ -31,12 +31,12 @@ steps:
   args:
   - 'set'
   - 'image'
-  - 'deployment/tsato-server'
-  - 'tsato-server=gcr.io/$PROJECT_ID/tsato-server:$_VERSION'
+  - 'deployment/tsato-cluster'
+  - 'tsato-cluster=gcr.io/$PROJECT_ID/tsato-cluster:$_VERSION'
 # デプロイのステータス確認
 - name: 'gcr.io/cloud-builders/kubectl'
   args:
   - 'rollout'
   - 'status'
-  - 'deployment/tsato-server'
+  - 'deployment/tsato-cluster'
 
