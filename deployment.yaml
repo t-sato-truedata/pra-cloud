@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
- name: sample-server
+ name: tsato-cluster
 spec:
  replicas: 2
  selector:
    matchLabels:
-     name: sample-server
+     name: tsato-cluster
  template:
    metadata:
      labels:
-       name: sample-server
+       name: tsato-cluster
    spec:
      containers:
-     - name: sample-server
-       image: gcr.io/pra-cloud/sample-server:latest
+     - name: tsato-cluster
+       image: gcr.io/pra-cloud/tsato-cluster:latest
        ports:
        - containerPort: 8080
          protocol: TCP
