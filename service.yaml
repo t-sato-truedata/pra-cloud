@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
- name: sample-server
+ name: tsato-cluster
  labels:
-   name: sample-server
+   name: tsato-cluster
 spec:
  ports:
  - port: 8080
    targetPort: 8080
  type: NodePort
  selector:
-   name: sample-server
+   name: tsato-cluster
 
